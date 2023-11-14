@@ -3,16 +3,24 @@ import Link from 'next/link'
 import Heading from '@/components/Heading'
 import { getReviews } from '@/lib/reviews'
 
+// export const revalidate = 30
+
 export const metadata = {
 	title: 'Reseñas',
 }
 
-export default async function ReviewsPage() {
+export default async function ReviewsPage({ searchParams }) {
+	const page = parsePageParams(searchParams.page)
 	const reviews = await getReviews(6)
 	return (
 		<>
 			<nav>
 				<Heading>Reseñas</Heading>
+				<div className="flex gap-2 pb-3">
+					<a href={`/reviews?page=${page - 1}`}>&lt;</a>
+					<span>Page {page}</span>
+					<a href={`/reviews?page=${page + 1}`}>&gt;</a>
+				</div>
 				<ul className="flex flex-wrap gap-3">
 					{reviews.map((review, index) => (
 						<li
@@ -38,4 +46,14 @@ export default async function ReviewsPage() {
 			</nav>
 		</>
 	)
+}
+
+function parsePageParams(paramValue) {
+	if (paramValue) {
+		const page = parseInt(paramValue)
+		if (page > 0 && isFinite(page)) {
+			return page
+		}
+		return 1
+	}
 }
