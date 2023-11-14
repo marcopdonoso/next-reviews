@@ -9,16 +9,20 @@ export const metadata = {
 	title: 'Reseñas',
 }
 
+const PAGE_SIZE = 6
+
 export default async function ReviewsPage({ searchParams }) {
 	const page = parsePageParams(searchParams.page)
-	const reviews = await getReviews(6)
+	const { reviews, meta } = await getReviews(PAGE_SIZE, page)
 	return (
 		<>
 			<nav>
 				<Heading>Reseñas</Heading>
 				<div className="flex gap-2 pb-3">
 					<a href={`/reviews?page=${page - 1}`}>&lt;</a>
-					<span>Page {page}</span>
+					<span>
+						Página {page} de {meta.pagination.pageCount}
+					</span>
 					<a href={`/reviews?page=${page + 1}`}>&gt;</a>
 				</div>
 				<ul className="flex flex-wrap gap-3">
@@ -54,6 +58,6 @@ function parsePageParams(paramValue) {
 		if (page > 0 && isFinite(page)) {
 			return page
 		}
-		return 1
 	}
+	return 1
 }

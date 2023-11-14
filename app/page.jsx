@@ -6,7 +6,7 @@ import Link from 'next/link'
 // export const revalidate = 30
 
 export default async function HomePage() {
-	const reviews = await getReviews(3)
+	const { reviews } = await getReviews(3)
 	console.log(
 		'[HomePage] rendering: ',
 		reviews.map((review) => review.slug).join(',')

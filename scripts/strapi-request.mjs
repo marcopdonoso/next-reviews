@@ -6,12 +6,8 @@ const query = qs.stringify(
 	{
 		fields: ['slug', 'title', 'subtitle', 'publishedAt'],
 		populate: { image: { fields: ['url'] } },
-		pagination: { pageSize: 1, withCount: false },
-		filters: {
-			slug: {
-				$eq: 'hades-2018',
-			},
-		},
+		sort: ['publishedAt:desc'],
+		pagination: { pageSize: 6, page: 1 },
 	},
 	{
 		encodeValuesOnly: true,
