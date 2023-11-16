@@ -1,12 +1,22 @@
-import Link from 'next/link'
+'use client'
 
-export default function NavLink({ href, tag, style }) {
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+
+export default function NavLink({ children, href, prefetch }) {
+	const pathname = usePathname()
+
+	if (pathname === href) {
+		return <span className="text-orange-800">{children}</span>
+	}
+
 	return (
 		<Link
 			href={href}
-			className={`text-orange-800 hover:underline ${style}`}
+			prefetch={prefetch}
+			className="text-orange-800 hover:underline"
 		>
-			{tag}
+			{children}
 		</Link>
 	)
 }
