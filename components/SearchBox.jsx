@@ -2,19 +2,29 @@
 
 import { Combobox } from '@headlessui/react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-export default function SearchBox({ reviews }) {
+export default function SearchBox() {
 	const router = useRouter()
 	const [query, setQuery] = useState('')
+	const [reviews, setReviews] = useState([])
+
+	useEffect(() => {
+		const fetchSearchReviews = async () => {
+			const response = await fetch('api/search?query=' + encodeURIComponent(query))
+			const reviews = await response.json()
+			setReviews(reviews)
+		}
+		if (query.length > 1) {
+			fetchSearchReviews()
+		} else {
+			setReviews([])
+		}
+	}, [query])
 
 	const handleChange = (review) => {
 		router.push(`/reviews/${review.slug}`)
 	}
-
-	const filteredReviews = reviews
-		.filter((review) => review.title.toLowerCase().includes(query.toLowerCase()))
-		.slice(0, 5)
 
 	return (
 		<div className="relative w-48">
@@ -26,7 +36,7 @@ export default function SearchBox({ reviews }) {
 					value={query}
 				/>
 				<Combobox.Options className="absolute bg-white py-1 w-full">
-					{filteredReviews.map((review) => (
+					{reviews.map((review) => (
 						<Combobox.Option
 							key={review.slug}
 							value={review}

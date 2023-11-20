@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import Heading from '@/components/Heading'
-import { getReviews, getSearchableReviews } from '@/lib/reviews'
+import { getReviews } from '@/lib/reviews'
 import PaginationBar from '@/components/PaginationBar'
 import SearchBox from '@/components/SearchBox'
 
@@ -21,7 +21,6 @@ export default async function ReviewsPage({ searchParams }) {
 	// 		return { slug, title }
 	// 	})
 	// )
-	const searchableReviews = await getSearchableReviews()
 	return (
 		<>
 			<nav>
@@ -32,7 +31,7 @@ export default async function ReviewsPage({ searchParams }) {
 						page={page}
 						pageCount={meta.pagination.pageCount}
 					/>
-					<SearchBox reviews={searchableReviews} />
+					<SearchBox />
 				</div>
 				<ul className="flex flex-wrap gap-3">
 					{reviews.map((review, index) => (
