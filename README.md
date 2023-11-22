@@ -6,6 +6,10 @@ This project is a web application that showcases reviews and information about v
 
 To get a copy of this project up and running on your local machine, follow these steps:
 
+## Deploy link
+
+[Top Gamer Reviews App](https://next-reviews-marcopdonoso.vercel.app/)
+
 ### Prerequisites
 
 Make sure you have the following installed:
