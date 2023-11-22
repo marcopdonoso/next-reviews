@@ -10,13 +10,16 @@ export default function SearchBox() {
 	const [reviews, setReviews] = useState([])
 
 	useEffect(() => {
+		const controller = new AbortController()
 		const fetchSearchReviews = async () => {
-			const response = await fetch('api/search?query=' + encodeURIComponent(query))
+			const url = 'api/search?query=' + encodeURIComponent(query)
+			const response = await fetch(url, { signal: controller.signal })
 			const reviews = await response.json()
 			setReviews(reviews)
 		}
 		if (query.length > 1) {
 			fetchSearchReviews()
+			return () => controller.abort()
 		} else {
 			setReviews([])
 		}
